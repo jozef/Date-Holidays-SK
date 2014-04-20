@@ -3,13 +3,17 @@ package Date::Holidays::SK;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Date::Simple;
 use Date::Easter;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(is_sk_holiday sk_holidays);
+our @EXPORT_OK = qw(
+   is_sk_holiday
+   is_sk_holiday_today
+   sk_holidays
+);
 
 # Fixed-date holidays {'MMDD' => 'NAME'}
 my $FIX = {
@@ -97,6 +101,13 @@ sub sk_holidays {
    return $h;
 }
 
+sub is_sk_holiday_today {
+   my ($year, $month, $day) = (localtime)[ 5, 4, 3 ];
+   $year  += 1900;
+   $month += 1;
+   return is_sk_holiday( $year, $month, $day );
+}
+
 1;
 
 __END__
@@ -109,16 +120,24 @@ Date::Holidays::SK - determine Slovak Republic bank holidays
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
-   use Date::Holidays::SK qw(is_sk_holiday sk_holidays);
-   my ($year, $month, $day) = (localtime)[ 5, 4, 3 ];
+   use Date::Holidays::SK qw(
+      is_sk_holiday
+      is_sk_holiday_today
+      sk_holidays
+   );
 
+   my ($year, $month, $day) = (localtime)[ 5, 4, 3 ];
    $year  += 1900;
    $month += 1;
-   print "Woohoo" if is_holiday( $year, $month, $day );
+   print "Woohoo" if is_sk_holiday( $year, $month, $day );
+   
+   # or
+   
+   print "Woohoo" if is_sk_holiday_today;
 
    my $hashref;
    $hashref = sk_holidays(2014);        # full listing for 2014
@@ -155,11 +174,11 @@ See L<http://en.wikipedia.org/wiki/Public_holidays_in_Slovakia>
 
 =head1 EXPORT
 
-This module contains two functions that can be exported:
-
 =over 8
 
 =item * is_sk_holiday
+
+=item * is_sk_holiday_today
 
 =item * sk_holidays
 
