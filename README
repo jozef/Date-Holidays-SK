@@ -2,15 +2,23 @@ NAME
     Date::Holidays::SK - determine Slovak Republic bank holidays
 
 VERSION
-    Version 0.01
+    Version 0.02
 
 SYNOPSIS
-       use Date::Holidays::SK qw(is_sk_holiday sk_holidays);
-       my ($year, $month, $day) = (localtime)[ 5, 4, 3 ];
+       use Date::Holidays::SK qw(
+          is_sk_holiday
+          is_sk_holiday_today
+          sk_holidays
+       );
 
+       my ($year, $month, $day) = (localtime)[ 5, 4, 3 ];
        $year  += 1900;
        $month += 1;
-       print "Woohoo" if is_holiday( $year, $month, $day );
+       print "Woohoo" if is_sk_holiday( $year, $month, $day );
+   
+       # or
+   
+       print "Woohoo" if is_sk_holiday_today;
 
        my $hashref;
        $hashref = sk_holidays(2014);        # full listing for 2014
@@ -37,9 +45,8 @@ SLOVAK REPUBLIC BANK HOLIDAYS
     See http://en.wikipedia.org/wiki/Public_holidays_in_Slovakia
 
 EXPORT
-    This module contains two functions that can be exported:
-
     * is_sk_holiday
+    * is_sk_holiday_today
     * sk_holidays
 
 SUBROUTINES/METHODS
